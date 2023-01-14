@@ -1,0 +1,22 @@
+{
+  "name": "BankServer",
+  "version": "1.0.0",
+  "description": "This is to help you create bank account",
+  "main": "index.js",
+  "author": "Nick",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon"
+  },
+  "keywords": [
+    "Bank",
+    "Account",
+    "server"
+  ],
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2",
+    "mongoose": "^6.8.3",
+    "nodemon": "^2.0.20"
+  }
+}

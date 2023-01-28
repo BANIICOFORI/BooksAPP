@@ -1,3 +1,4 @@
+const AuthorsModel = require("./AuthModel");
 const BooksModal = require("./model");
 //const StationsModel =require("./StationsModel");
 
@@ -28,7 +29,7 @@ const createBooksController = (req,res) =>{
 const updateBooksController = (req,res) =>{    
     const {id,Title,Author,Description} = req.body;
    
-    BooksModel.findById(id).then(books=>{
+    BooksModal.findById(id).then(books=>{
         if(books){
              books.Title=Title;
              books.Author=Author;
@@ -53,9 +54,48 @@ const deleteBooksController = (req,res) =>{
     });
     
 }
+const createAuthorsController = (req,res) => {
+    const {Title,AuthName,PhoneNo,booksId} = req.body;
+   
+     const Authors = new AuthorsModel ({Title,AuthName,PhoneNo,booksId});
+   
+       Authors.save().then(result => {
+           if(result)
+            res.json({message:"Author Created", data:result});
+            else {
+                res.json({message: "Failed to create Station"});
+            }
+          
+       }); 
+    }
+    const listAuthorsController = (req,res) =>{
+        const {id} = req.params;
+        if(id){
+            AuthorsModel.find({_id:id})
+            .populate("booksId", "Title AuthName PhoneNo")
+            .then(Authors=>{
+            res.json({data:Authors});
+            }).catch(err=>console.log(err));
+        }else{
+            AuthorsModel.find()
+        //    .populate("RequestsId", "serviceNo firstname middlename lastname -_id")
+        .populate("booksId", "Title AuthName PhoneNo")
+           .then(Authors=>{
+            res.json({data:Authors});
+            }).catch(err=>console.log(err));
+        }
+       
+     }
+
 module.exports ={
    listBooksController,
+   listAuthorsController,
+
    createBooksController,
+   createAuthorsController,
+
    updateBooksController,
+
    deleteBooksController
+   //createAuthorsController
 }
